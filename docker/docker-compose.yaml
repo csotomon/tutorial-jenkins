@@ -1,0 +1,32 @@
+version: "3.7"
+ 
+services:
+  jenkins:
+    environment:
+    #### WINDOWS ONLY ####
+      - DDOCKER_HOST=tcp://host.docker.internal:2375
+    user: root
+    image: "jenkinsci/blueocean:1.24.4"
+    ports:
+      - "8080:8080"
+      - "8043:8043"
+      - "50000:50000"
+    volumes:
+      - ./jenkins-data:/var/jenkins_home
+      ##### Mac OS X and Linux ONLY #####
+      # - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - jenkins
+  nginx:
+    image: nginx:1.19.6-alpine
+    ports:
+      - 8000:80
+    volumes:
+      - ./site-content:/usr/share/nginx/html
+    networks:
+      - jenkins
+
+    
+networks:
+  jenkins:
+    driver: bridge

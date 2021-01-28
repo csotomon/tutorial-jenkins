@@ -1,0 +1,45 @@
+pipeline {
+  agent {
+    docker { image 'trion/ng-cli-karma:11.1.1' }
+  }
+  stages {
+    stage('Install') {
+      // environment {
+      //   NPM_CONFIG_LOGLEVEL='warn'
+      // }
+      steps {
+        sh 'npm install'
+      }
+    }
+
+    stage('Test') {
+      environment {
+        CHROME_BIN='/usr/bin/chromium-browser'
+      }
+      steps {
+        sh 'ng test --progress=false --watch false'
+      }
+    }
+
+    stage('Lint') {
+      steps {
+        sh 'ng lint'
+      }
+    }
+
+//     stage('Build') {
+//       milestone()
+//         sh 'ng build --prod --aot --sm --progress=false'
+//     }
+
+//     stage('Archive') {
+//       sh 'tar -cvzf dist.tar.gz --strip-components=1 dist'
+//       archive 'dist.tar.gz'
+//     }
+
+//     stage('Deploy') {
+//       milestone()
+//       echo "Deploying..."
+//     }
+  }
+}
