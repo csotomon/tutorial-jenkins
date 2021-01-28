@@ -4,12 +4,13 @@ pipeline {
   }
   stages {
     stage('Install') {
-      // environment {
-      //   NPM_CONFIG_LOGLEVEL='warn'
-      // }
+      environment {
+        NPM_CONFIG_LOGLEVEL='warn'
+      }
       steps {
-        sh 'cd angular/holamundo'
-        sh 'npm install'
+        dir('angular/holamundo'){
+            sh "npm install"
+        }
       }
     }
 
