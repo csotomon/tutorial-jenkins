@@ -29,8 +29,10 @@ pipeline {
     }
 
     stage('Build') {
-      milestone()
+      steps{
+        milestone()
         sh 'ng build --prod --aot --sm --progress=false'
+      }
     }
 
 //     stage('Archive') {
